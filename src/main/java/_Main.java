@@ -13,7 +13,7 @@ public class _Main {
 
         Document doc;
 
-        for (int i = 0; i<15;i++) {
+        for (int i = 0; i<20;i++) {
 
             doc = docMan.createNewObject(types.get(random.nextInt(2)).toString(), "");
             try {
