@@ -1,24 +1,24 @@
 import java.util.*;
 
-public class _Main {
-    public static ArrayList persCollection = generatePersList();
-    public static ArrayList regNumCollection = new ArrayList();
-    public static ArrayList types = new ArrayList<String>(Arrays.asList("Task","Outgoing","Incoming"));
-    public static List<Document> docCollection = new ArrayList<Document>();
+class _Main {
+
+    private static ArrayList<String> persCollection = _Main.generatePersList();
   //  static final Random random = new Random();
 
+    private static ArrayList<String> getPersCollection() {
+       return persCollection;
+    }
     public static void main(String[] args){
         Random random = new Random();
         DocumentManager docMan = new DocumentManager();
-
         Document doc;
 
         for (int i = 0; i<20;i++) {
 
-            doc = docMan.createNewObject(types.get(random.nextInt(2)).toString(), "");
+            doc = docMan.createNewObject(Collector.getTypes().get(random.nextInt(2)), "");
             try {
                 docMan.register(doc);
-                docCollection.add(doc);
+                Collector.getDocCollection().add(doc);
 
 
             } catch (DocumentManager.DocumentExistsException e) {
@@ -29,21 +29,21 @@ public class _Main {
         }
         System.out.println("---------------------------------------");
         // Collections.sort(docCollection, Document.DocComparator);
-        Collections.sort(docCollection);
+        Collections.sort( Collector.getDocCollection());
         String dAuth= "";
-        for(Document dd:docCollection){
-            if (dAuth.compareTo(dd.author)!=0) {
-                System.out.println(dd.author);
+        for(Document dd: Collector.getDocCollection()){
+            if (dAuth.compareTo(dd.getAuthor())!=0) {
+                System.out.println(dd.getAuthor());
             }
 
             dd.toString("");
-            dAuth = dd.author;
+            dAuth = dd.getAuthor();
         }
 
     }
 
-    private static ArrayList generatePersList(){
-        ArrayList persList = new ArrayList();
+    private static ArrayList<String> generatePersList(){
+        ArrayList<String> persList = new ArrayList<String>();
         persList.add("Петров Андрей Петрович");
         persList.add("Петрова Анна Петровна");
         persList.add("Андреев Андрей Петрович");
@@ -56,14 +56,15 @@ public class _Main {
         return persList;
 
     }
+
     public static String getRandomPers(){
         Random random = new Random();
         Object pers =null;
-        if(!persCollection.isEmpty()){
-            pers = persCollection.get((random.nextInt(7)));
+        if(!getPersCollection().isEmpty()){
+            pers = getPersCollection().get((random.nextInt(7)));
         }
 
-        return pers.toString();
+        return pers != null ? pers.toString() : null;
 
     }
 

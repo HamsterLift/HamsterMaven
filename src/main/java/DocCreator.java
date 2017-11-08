@@ -1,3 +1,3 @@
-public interface DocCreator {
-    public Document createDoc();
+interface DocCreator {
+    Document createDoc();
 }

@@ -5,11 +5,11 @@ import java.util.Random;
 
 public class DocumentManager {
 
-    static final Random random = new Random();
+    private static final Random random = new Random();
 
      public Document createNewObject (String DocClass, String FabType){
 
-         DocCreator newDoc = null;
+         DocCreator newDoc;
 
          String s = DocClass.toLowerCase();
          if (s.equals("task")) {
@@ -25,27 +25,27 @@ public class DocumentManager {
              newDoc = null;
          }
 
-        return newDoc.createDoc();
+        return newDoc != null ? newDoc.createDoc() : null;
     }
 
     private static void rememberRegNum(String regNum){
-        ArrayList regList = _Main.regNumCollection;
+        ArrayList regList = Collector.getRegNumCollection();
         regList.add(regNum);
     }
 
     private static Boolean hasRegNum(String regNum){
-        ArrayList regList = _Main.regNumCollection;
+        ArrayList regList = Collector.getRegNumCollection();
         return regList.contains(regNum);
     }
 
 
     static class DocumentExistsException extends Exception{
 
-        private String number;
-        public DocumentExistsException(String message, String num){
+        //private String number;
+        DocumentExistsException(String message, String num){
 
             super(message + " ("+num+")");
-            number=num;
+        //    number=num;
         }
     }
 
@@ -56,38 +56,31 @@ public class DocumentManager {
         }else {
             rememberRegNum(regNum);
         }
-        doc.regnum = regNum;
+        doc.setRegnum(regNum);
 
     }
-
 
     public class TaskCreator implements DocCreator{
 
         @Override
         public Task createDoc(){
             Task newTask = new Task();
-            newTask.author = _Main.getRandomPers();
-            newTask.controller =_Main.getRandomPers();
+            newTask.setAuthor(_Main.getRandomPers());
+            newTask.setController(_Main.getRandomPers());
             Calendar cal = Calendar.getInstance();
             cal.set(2017,random.nextInt(12),random.nextInt(30));
-            newTask.execDate = cal.getTime();
-            newTask.executor =_Main.getRandomPers();
-            newTask.id = Integer.toString(random.nextInt());
-            newTask.isControl = Boolean.toString(random.nextBoolean());
+            newTask.setExecDate( cal.getTime());
+            newTask.setExecutor(_Main.getRandomPers());
+            newTask.setId(Integer.toString(random.nextInt()));
+            newTask.setIsControl(Boolean.toString(random.nextBoolean()));
             cal.set(2017,random.nextInt(12),random.nextInt(30));
-            newTask.sendDate = cal.getTime();
-
-
-            newTask.name = "Поручение";
-            newTask.subject = "Тема поручения "+random.nextInt();
-
-
+            newTask.setSendDate(cal.getTime());
+            newTask.setName("Поручение");
+            newTask.setSubject("Тема поручения "+random.nextInt());
 
             return newTask;
         }
     }
-
-
 
     public class IncomingCreator implements DocCreator{
 
@@ -95,43 +88,37 @@ public class DocumentManager {
         @Override
         public Incoming createDoc(){
             Incoming newIncoming = new Incoming();
-             newIncoming.outNum =Integer.toString(random.nextInt());
+             newIncoming.setOutNum(Integer.toString(random.nextInt()));
             Calendar cal = Calendar.getInstance();
             cal.set(2017,random.nextInt(12),random.nextInt(30));
-             newIncoming.outDate =cal.getTime();
-             newIncoming.sender =_Main.getRandomPers();
-             newIncoming.addressee =_Main.getRandomPers();
-             newIncoming.controller =_Main.getRandomPers();
-
-            newIncoming.id = Integer.toString(random.nextInt());
-            newIncoming.name = "Входящий";
-            newIncoming.subject = "Краткое содержание "+random.nextInt();
-
-
-
+             newIncoming.setOutDate(cal.getTime());
+             newIncoming.setSender(_Main.getRandomPers());
+             newIncoming.setAddressee(_Main.getRandomPers());
+             newIncoming.setController(_Main.getRandomPers());
+            newIncoming.setId(Integer.toString(random.nextInt()));
+            newIncoming.setName("Входящий");
+            newIncoming.setSubject("Краткое содержание "+random.nextInt());
             cal.set(2017,random.nextInt(12),random.nextInt(30));
-            newIncoming.regDate = cal.getTime();
-            newIncoming.author =_Main.getRandomPers();
+            newIncoming.setRegDate(cal.getTime());
+            newIncoming.setAuthor(_Main.getRandomPers());
 
             return newIncoming;
         }
     }
 
     public class OutgoingCreator implements DocCreator{
-
-
         @Override
         public Outgoing createDoc() {
             Outgoing newOutgoing = new Outgoing();
-            newOutgoing.addressee = _Main.getRandomPers();
-            newOutgoing.deliveryMethod ="Способ доставки " + random.nextInt();
-            String Id = Integer.toString(random.nextInt());
-            newOutgoing.name = "Исходящий";
-            newOutgoing.subject = "Краткое содержание "+random.nextInt();
+            newOutgoing.setAddressee(_Main.getRandomPers());
+            newOutgoing.setDeliveryMethod("Способ доставки " + random.nextInt());
+            newOutgoing.setId(Integer.toString(random.nextInt()));
+            newOutgoing.setName("Исходящий");
+            newOutgoing.setSubject("Краткое содержание "+random.nextInt());
             Calendar cal = Calendar.getInstance();
             cal.set(2017, random.nextInt(11), random.nextInt(30));
-            newOutgoing.regDate = cal.getTime();
-            newOutgoing.author =_Main.getRandomPers();
+            newOutgoing.setRegDate(cal.getTime());
+            newOutgoing.setAuthor(_Main.getRandomPers());
             return newOutgoing;
         }
     }
