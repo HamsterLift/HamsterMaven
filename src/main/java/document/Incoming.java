@@ -1,10 +1,16 @@
+package document;
+
+import staff.Person;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Incoming extends Document{
-    private  String outNum;
-    private  Date outDate;
-    private  String sender;
+public class Incoming extends Document {
+    private String outNum;
+    private Date outDate;
+    private Person sender;
+    private String addressee;
+    private Person controller;
 
     public String getOutNum() {
         return outNum;
@@ -22,11 +28,11 @@ public class Incoming extends Document{
         this.outDate = outDate;
     }
 
-    public String getSender() {
+    public Person getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(Person sender) {
         this.sender = sender;
     }
 
@@ -38,22 +44,19 @@ public class Incoming extends Document{
         this.addressee = addressee;
     }
 
-    public String getController() {
+    public Person getController() {
         return controller;
     }
 
-    public void setController(String controller) {
+    public void setController(Person controller) {
         this.controller = controller;
     }
 
-    private String addressee;
-    private String controller;
-
     @Override
-      public void toString(String s) {
+    public void toString(String s) {
         SimpleDateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
-          System.out.println(" ------ "+getName() +" №"+ getRegnum() +" от "+ dt.format(getRegDate())+". "+ getSubject() );
-      }
+        System.out.println(" ------ " + getName() + " №" + getRegnum() + " от " + dt.format(getRegDate()) + ". " + getSubject());
+    }
 
 
 }

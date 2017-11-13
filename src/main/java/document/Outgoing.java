@@ -1,6 +1,11 @@
+package document;
+
 import java.text.SimpleDateFormat;
 
-public class Outgoing extends Document{
+public class Outgoing extends Document {
+    private String addressee;
+    private String deliveryMethod;
+
     public String getAddressee() {
         return addressee;
     }
@@ -17,12 +22,10 @@ public class Outgoing extends Document{
         this.deliveryMethod = deliveryMethod;
     }
 
-    private   String addressee;
-    private   String deliveryMethod;
     @Override
     public void toString(String s) {
         SimpleDateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
-        System.out.println(" ------ "+getName() +" №"+ getRegnum() +" от "+ dt.format(getRegDate())+". "+ getSubject() );
+        System.out.println(" ------ " + getName() + " №" + getRegnum() + " от " + dt.format(getRegDate()) + ". " + getSubject());
     }
 
 }

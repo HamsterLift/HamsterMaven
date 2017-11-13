@@ -1,16 +1,29 @@
+import Importer.ImportStaff;
+import com.google.gson.Gson;
+import document.Document;
+import staff.Person;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 class _Main {
 
-    private static ArrayList<String> persCollection = _Main.generatePersList();
-  //  static final Random random = new Random();
+    private static ArrayList<Person> persCollection = _Main.generatePersList();
+    private static ArrayList<String> addrCollection = _Main.generateAddrList();
+    //  static final Random random = new Random();
 
-    private static ArrayList<String> getPersCollection() {
-       return persCollection;
+    private static ArrayList<Person> getPersCollection() {
+        return persCollection;
     }
-    public static void main(String[] args){
+    private static ArrayList<String> getAddrCollection() {
+        return addrCollection;
+    }
+    public static void main(String[] args) {
+
         Random random = new Random();
         DocumentManager docMan = new DocumentManager();
+
         Document doc;
 
         for (int i = 0; i<20;i++) {
@@ -28,43 +41,106 @@ class _Main {
 
         }
         System.out.println("---------------------------------------");
-        // Collections.sort(docCollection, Document.DocComparator);
-        Collections.sort( Collector.getDocCollection());
-        String dAuth= "";
+
+        Map<String,List<Document>> byAuthor = new HashMap();
+
         for(Document dd: Collector.getDocCollection()){
-            if (dAuth.compareTo(dd.getAuthor())!=0) {
+            if(!byAuthor.containsKey(dd.getAuthor().getId())){
+                byAuthor.put(dd.getAuthor().getId(), new ArrayList());
+            }
+            byAuthor.get(dd.getAuthor().getId()).add(dd);
+        }
+
+        for (Map.Entry<String, List<Document>> entry : byAuthor.entrySet()){
+            Gson gson = new Gson();
+            try {
+                gson.toJson(entry, new FileWriter(entry.getKey()+".json"));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+       /* Collections.sort( Collector.getDocCollection());
+
+        for(Document dd: Collector.getDocCollection()){
+            if (dAuth.compareTo(dd.getAuthor().getId())!=0) {
                 System.out.println(dd.getAuthor());
+
+            }
+
+
+
+            try {
+                gson.toJson(dd, new FileWriter(dd.getAuthor()+".json"));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             dd.toString("");
-            dAuth = dd.getAuthor();
+            dAuth = dd.getAuthor().getId();
         }
+
+*/
+
 
     }
 
-    private static ArrayList<String> generatePersList(){
-        ArrayList<String> persList = new ArrayList<String>();
-        persList.add("Петров Андрей Петрович");
-        persList.add("Петрова Анна Петровна");
-        persList.add("Андреев Андрей Петрович");
-        persList.add("Чернов Сергей Андреевич");
-        persList.add("Белов Валерий Петрович");
-        persList.add("Владимиров Иван Петрович");
-        persList.add("Краснов Владимир Петрович");
-        persList.add("Чирков Андрей Владимирович");
+    private static ArrayList<Person> generatePersList() {
 
+        ArrayList<Person> persList = new ArrayList<Person>();
+
+        ImportStaff parse = new ImportStaff();
+
+        try {
+            persList =  parse.loadStaff("person", "person.xml");
+          //  parse.loadStaff("department", "deps.xml");
+          //  parse.loadStaff("organization", "orgs.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return persList;
 
     }
 
-    public static String getRandomPers(){
+    private static ArrayList<String> generateAddrList() {
+
+        ArrayList<String> addrList = new ArrayList<String>();
+
+        addrList.add("Петров Андрей Петрович");
+        addrList.add("Петрова Анна Петровна");
+        addrList.add("Андреев Андрей Петрович");
+        addrList.add("Чернов Сергей Андреевич");
+        addrList.add("Белов Валерий Петрович");
+        addrList.add("Владимиров Иван Петрович");
+        addrList.add("Краснов Владимир Петрович");
+        addrList.add("Чирков Андрей Владимирович");
+
+        return addrList;
+
+    }
+
+    public static String getRandomAddressee() {
         Random random = new Random();
-        Object pers =null;
-        if(!getPersCollection().isEmpty()){
-            pers = getPersCollection().get((random.nextInt(7)));
+        String addr = null;
+        if (!getAddrCollection().isEmpty()) {
+            addr = getAddrCollection().get((random.nextInt(getAddrCollection().size())));
         }
 
-        return pers != null ? pers.toString() : null;
+        return addr != null ? addr : null;
+
+    }
+
+    public static Person getRandomPers() {
+        Random random = new Random();
+        Person pers = null;
+        if (!getPersCollection().isEmpty()) {
+            pers = getPersCollection().get((random.nextInt(getPersCollection().size())));
+        }
+
+        return pers != null ? pers : null;
 
     }
 

@@ -1,10 +1,12 @@
+import document.Document;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 class Collector {
-    private static ArrayList regNumCollection = new ArrayList();
-    private static ArrayList<String> types = new ArrayList<String>(Arrays.asList("Task","Outgoing","Incoming"));
+    private static ArrayList<String> regNumCollection = new ArrayList<String>();
+    private static ArrayList<String> types = new ArrayList<String>(Arrays.asList("Task", "Outgoing", "Incoming"));
     private static List<Document> docCollection = new ArrayList<Document>();
 
 
@@ -19,7 +21,6 @@ class Collector {
     public static List<Document> getDocCollection() {
         return docCollection;
     }
-
 
 
 }

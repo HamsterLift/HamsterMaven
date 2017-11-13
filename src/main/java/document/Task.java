@@ -1,7 +1,17 @@
+package document;
+
+import staff.Person;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Task extends Document{
+public class Task extends Document {
+    private Date sendDate;
+    private Date execDate;
+    private Person executor;
+    private String isControl;
+    private Person controller;
+
     private Date getSendDate() {
         return sendDate;
     }
@@ -18,11 +28,11 @@ public class Task extends Document{
         this.execDate = execDate;
     }
 
-    public String getExecutor() {
+    public Person getExecutor() {
         return executor;
     }
 
-    public void setExecutor(String executor) {
+    public void setExecutor(Person executor) {
         this.executor = executor;
     }
 
@@ -34,23 +44,18 @@ public class Task extends Document{
         this.isControl = isControl;
     }
 
-    public String getController() {
+    public Person getController() {
         return controller;
     }
 
-    public void setController(String controller) {
+    public void setController(Person controller) {
         this.controller = controller;
     }
 
-    private Date sendDate;
-    private Date execDate;
-    private String executor;
-    private String isControl;
-    private String controller;
     @Override
     public void toString(String s) {
         SimpleDateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
-        System.out.println(" ------ "+getName() +" от " + dt.format(getSendDate())+". "+ getSubject() );
+        System.out.println(" ------ " + getName() + " от " + dt.format(getSendDate()) + ". " + getSubject());
     }
 
 }
